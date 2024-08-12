@@ -11,9 +11,9 @@ resources:
 variables:
 
   # Container registry service connection established during pipeline creation
-  dockerRegistryServiceConnection: '9692705d-ad4a-4910-bb18-5b88513150a0'
+  dockerRegistryServiceConnection: 'd077bdb9-f113-47e1-8692-92e4e8e031ff'
   imageRepository: 'heshamspringpetclinic'
-  containerRegistry: 'atosacr22.azurecr.io'
+  containerRegistry: 'http://98.66.209.194:8080/'
   dockerfilePath: '**/Dockerfile'
   tag: '$(Build.BuildId)'
   imagePullSecret: 'atosacr22449995aa-auth'
