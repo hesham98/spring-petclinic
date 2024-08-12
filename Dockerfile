@@ -1,11 +1,30 @@
-# Stage 1: Build the application
-FROM maven:3.8.3-openjdk-17-slim AS build
-WORKDIR /home/app
-COPY spring-petclinic /home/app
-RUN ./mvnw clean install
+# Use a Maven image to build the application
+FROM maven:3.9.4-eclipse-temurin-17 as build
 
-# Stage 2: Run the application
-FROM openjdk:17-jdk-slim
-COPY --from=build /home/app/target/spring-petclinic-3.3.0-SNAPSHOT.jar /usr/local/lib/app.jar
+# Set the working directory inside the container
+WORKDIR /app
+
+# Copy the pom.xml and download dependencies
+COPY pom.xml .
+RUN mvn dependency:go-offline -B
+
+# Copy the entire project
+COPY . .
+
+# Build the Spring Boot application
+RUN mvn clean package -DskipTests
+
+# Use an OpenJDK image to run the application
+FROM eclipse-temurin:17-jdk-jammy
+
+# Set the working directory inside the container
+WORKDIR /app
+
+# Copy the JAR file from the Maven build image
+COPY --from=build /app/target/*.jar app.jar
+
+# Expose the port the app runs on
 EXPOSE 8081
-ENTRYPOINT ["java","-jar","/usr/local/lib/app.jar", "--server.port=8081"]
+
+# Run the Spring Boot application
+ENTRYPOINT ["java", "-jar", "app.jar"]
