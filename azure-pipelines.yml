@@ -71,4 +71,5 @@ stages:
                 $(imagePullSecret)
               containers: |
                 $(containerRegistry)/$(imageRepository):$(tag)
+              arguments: '--validate=false'
 
