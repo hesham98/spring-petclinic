@@ -42,3 +42,23 @@ stages:
         PathtoPublish: '$(System.DefaultWorkingDirectory)/manifests'
         ArtifactName: 'manifests'
         publishLocation: 'Container'
+
+
+- stage: Deploy
+  displayName: Deploy stage
+  dependsOn: Build
+  jobs:
+  - job: Deploy
+    displayName: Deploy
+    pool: Default
+    steps:
+    - download: current
+      artifact: manifests
+    - task: KubernetesManifest@1
+      inputs:
+        action: 'deploy'
+        connectionType: 'kubernetesServiceConnection'
+        kubernetesServiceConnection: 'dev-ns-svc-conn'
+        namespace: 'dev'
+        manifests: '$(Pipeline.Workspace)/manifests'
+        containers: 'atosacr22.azurecr.io/$(imageRepository):$(tag)'
