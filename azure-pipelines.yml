@@ -51,12 +51,17 @@ stages:
     steps:
     - task: Kubernetes@1
       inputs:
-        connectionType: 'Kubernetes Service Connection'
-        kubernetesServiceEndpoint: 'staging-ns-svc-conn'
+        connectionType: 'Azure Resource Manager'
+        azureSubscriptionEndpoint: 'Azure subscription 1(7dec5829-bdf3-4069-86ff-2358b047427d)'
+        azureResourceGroup: 'atos-RG'
+        kubernetesCluster: 'atos-aks'
         namespace: 'staging'
         command: 'apply'
         useConfigurationFile: true
         configuration: 'manifests'
         secretType: 'dockerRegistry'
         containerRegistryType: 'Azure Container Registry'
-        outputFormat: 'yaml'
+        azureSubscriptionEndpointForSecrets: 'Azure subscription 1(7dec5829-bdf3-4069-86ff-2358b047427d)'
+        azureContainerRegistry: 'atosacr22.azurecr.io'
+        forceUpdate: false
+        checkLatest: true
