@@ -16,4 +16,4 @@ spec:
         - name: petclinic 
           image: atosacr22.azurecr.io/petclinic
           ports:
-          - containerPort: 80
+          - containerPort: 8080
