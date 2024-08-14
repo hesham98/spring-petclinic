@@ -60,5 +60,5 @@ stages:
         connectionType: 'kubernetesServiceConnection'
         kubernetesServiceConnection: 'dev-ns-svc-conn'
         namespace: 'dev'
-        manifests: '$(Pipeline.Workspace)/manifests'
+        manifests: '$(System.DefaultWorkingDirectory)/manifests'
         containers: 'atosacr22.azurecr.io/$(imageRepository):$(tag)'
