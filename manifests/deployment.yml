@@ -14,6 +14,6 @@ spec:
     spec:
       containers:
         - name: petclinic 
-          image: atosacr22.azurecr.io/petclinic:$(tag)
+          image: atosacr22.azurecr.io/petclinic:TAG_PLACEHOLDER
           ports:
           - containerPort: 8080
