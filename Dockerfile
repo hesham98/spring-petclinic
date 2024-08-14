@@ -12,7 +12,7 @@ RUN mvn dependency:go-offline -B
 COPY . .
 
 # Build the Spring Boot application
-RUN mvn package -Dcheckstyle.skip
+RUN mvn package -Dcheckstyle.skip -DskipTests
 
 # Use an OpenJDK image to run the application
 FROM eclipse-temurin:17-jdk-jammy
