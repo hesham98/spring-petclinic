@@ -47,6 +47,9 @@ stages:
     displayName: Deploy
     pool: Default
     steps:
+    - script: |
+        sed -i 's/TAG_PLACEHOLDER/$(Build.BuildId)/g' manifests/deployment.yaml
+      displayName: Replace image tag in deployment manifest
     - task: Kubernetes@1
       inputs:
         connectionType: 'Azure Resource Manager'
