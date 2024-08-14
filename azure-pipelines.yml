@@ -11,12 +11,11 @@ resources:
 variables:
 
   # Container registry service connection established during pipeline creation
-  dockerRegistryServiceConnection: '30b442ee-95ad-472b-be07-b06394984d0b'
-  imageRepository: 'petclinic'
-  containerRegistry: 'atosacr22.azurecr.io'
+  dockerRegistryServiceConnection: 'd077bdb9-f113-47e1-8692-92e4e8e031ff'
+  imageRepository: 'task'
+  containerRegistry: 'http://98.66.209.194:8080/'
   dockerfilePath: '**/Dockerfile'
   tag: '$(Build.BuildId)'
-  imagePullSecret: 'atosacr226969121f-auth'
 
 
 stages:
@@ -39,7 +38,6 @@ stages:
 
     - upload: manifests
       artifact: manifests
-
 
 - stage: Deploy
   displayName: Deploy stage
