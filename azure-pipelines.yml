@@ -48,9 +48,9 @@ stages:
     pool: Default
     steps:
     - powershell: |
-        (Get-Content -path '$(Pipeline.Workspace)\manifests\deployment.yml') -replace 'TAG_PLACEHOLDER', '$(Build.BuildId)' | Set-Content -path '$(Pipeline.Workspace)\manifests\deployment.yml'
+        (Get-Content -path 'manifests\deployment.yml') -replace 'TAG_PLACEHOLDER', '$(Build.BuildId)' | Set-Content -path 'manifests\deployment.yml'
       displayName: Replace image tag in deployment manifest
-      
+            
     - task: Kubernetes@1
       inputs:
         connectionType: 'Azure Resource Manager'
@@ -62,8 +62,8 @@ stages:
         useConfigurationFile: true
         configuration: 'manifests'
         secretType: 'dockerRegistry'
-        containerRegistryType: 'Azure Container Registry'
-        azureSubscriptionEndpointForSecrets: 'Azure subscription 1(7dec5829-bdf3-4069-86ff-2358b047427d)'
-        azureContainerRegistry: 'atosacr22.azurecr.io'
+        containerRegistryType: 'Container Registry'
+        dockerRegistryEndpoint: 'dockerhostedrepo'
+        secretName: 'neuxsecret'
         forceUpdate: false
         checkLatest: true
