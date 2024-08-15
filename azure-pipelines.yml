@@ -53,19 +53,9 @@ stages:
         targetPath: '$(Pipeline.Workspace)/manifests'
 
     - powershell: |
-        Write-Host "Current directory: $(Get-Location)"
-        Get-ChildItem
-      displayName: Print current directory and contents
-      
-    - powershell: |
-        $manifestPath = 'C:\Users\haly\Desktop\agent\_work\6\s\manifests\deployment.yaml'
-        if (Test-Path $manifestPath) {
-            (Get-Content -path $manifestPath) -replace 'TAG_PLACEHOLDER', '$(Build.BuildId)' | Set-Content -path $manifestPath
-        } else {
-            Write-Error "The file $manifestPath does not exist."
-        }
+        (Get-Content -path '$(Pipeline.Workspace)/manifests/deployment.yaml') -replace 'TAG_PLACEHOLDER', '$(Build.BuildId)' | Set-Content -path '$(Pipeline.Workspace)/manifests/deployment.yaml'
       displayName: Replace image tag in deployment manifest
-
+      
     - task: Kubernetes@1
       inputs:
         connectionType: 'Azure Resource Manager'
