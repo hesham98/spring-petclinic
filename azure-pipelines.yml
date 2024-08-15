@@ -16,7 +16,7 @@ variables:
   containerRegistry: 'http://98.66.209.194:8080/'
   dockerfilePath: '**/Dockerfile'
   tag: '$(Build.BuildId)'
-
+  stgSecret: 'neuxsecret'
 
 stages:
 - stage: Build
@@ -51,6 +51,15 @@ stages:
         (Get-Content -path 'manifests\deployment.yml') -replace 'TAG_PLACEHOLDER', '$(Build.BuildId)' | Set-Content -path 'manifests\deployment.yml'
       displayName: Replace image tag in deployment manifest
             
+    - powershell: |
+        $secretExists = kubectl get secret $(stgSecret) -n staging --ignore-not-found
+        if (-not $secretExists) {
+            kubectl create secret docker-registry $(stgSecret) --docker-server=$(containerRegistry) --docker-username=<your-username> --docker-password=<your-password> --docker-email=<your-email> -n staging
+        } else {
+            Write-Host "Secret '$(stgSecret)' already exists. Skipping creation."
+        }
+      displayName: Create Docker Registry Secret if it doesn't exist
+
     - task: Kubernetes@1
       inputs:
         connectionType: 'Azure Resource Manager'
@@ -64,6 +73,6 @@ stages:
         secretType: 'dockerRegistry'
         containerRegistryType: 'Container Registry'
         dockerRegistryEndpoint: 'dockerhostedrepo'
-        secretName: 'neuxsecret'
+        secretName: $(stgSecret)
         forceUpdate: false
         checkLatest: true
