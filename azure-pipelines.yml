@@ -53,7 +53,7 @@ stages:
         targetPath: '$(Pipeline.Workspace)/manifests'
 
     - powershell: |
-        (Get-Content -path '$(Pipeline.Workspace)/manifests/deployment.yaml') -replace 'TAG_PLACEHOLDER', '$(Build.BuildId)' | Set-Content -path '$(Pipeline.Workspace)/manifests/deployment.yaml'
+        (Get-Content -path '$(Pipeline.Workspace)\manifests\deployment.yaml') -replace 'TAG_PLACEHOLDER', '$(Build.BuildId)' | Set-Content -path '$(Pipeline.Workspace)\manifests\deployment.yaml'
       displayName: Replace image tag in deployment manifest
       
     - task: Kubernetes@1
