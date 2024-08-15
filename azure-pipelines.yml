@@ -47,13 +47,8 @@ stages:
     displayName: Deploy
     pool: Default
     steps:
-    - task: DownloadPipelineArtifact@2
-      inputs:
-        artifactName: 'manifests'
-        targetPath: '$(Pipeline.Workspace)/manifests'
-
     - powershell: |
-        (Get-Content -path '$(Pipeline.Workspace)\manifests\deployment.yaml') -replace 'TAG_PLACEHOLDER', '$(Build.BuildId)' | Set-Content -path '$(Pipeline.Workspace)\manifests\deployment.yaml'
+        (Get-Content -path '$(Pipeline.Workspace)\manifests\deployment.yml') -replace 'TAG_PLACEHOLDER', '$(Build.BuildId)' | Set-Content -path '$(Pipeline.Workspace)\manifests\deployment.yml'
       displayName: Replace image tag in deployment manifest
       
     - task: Kubernetes@1
