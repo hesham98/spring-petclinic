@@ -13,7 +13,7 @@ variables:
   # Container registry service connection established during pipeline creation
   dockerRegistryServiceConnection: 'd077bdb9-f113-47e1-8692-92e4e8e031ff'
   imageRepository: 'task'
-  containerRegistry: 'http://98.66.209.194:8080/'
+  containerRegistry: 'https://98.66.209.194/'
   dockerfilePath: '**/Dockerfile'
   tag: '$(Build.BuildId)'
 
