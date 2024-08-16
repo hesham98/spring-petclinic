@@ -62,7 +62,7 @@ stages:
         configuration: 'manifests'
         secretType: 'dockerRegistry'
         containerRegistryType: 'Container Registry'
-        dockerRegistryEndpoint: 'dockerhostedrepo'
+        dockerRegistryEndpoint: 'dockerRepo'
         #secretName: 'nexussecret'
         forceUpdate: false
         checkLatest: true
