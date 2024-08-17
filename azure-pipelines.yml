@@ -56,13 +56,14 @@ stages:
         azureSubscriptionEndpoint: 'Azure subscription 1(7dec5829-bdf3-4069-86ff-2358b047427d)'
         azureResourceGroup: 'atos-RG'
         kubernetesCluster: 'atos-aks'
-        namespace: 'staging'
+        namespace: 'dev'
         command: 'apply'
         useConfigurationFile: true
         configuration: 'manifests'
         secretType: 'dockerRegistry'
         containerRegistryType: 'Container Registry'
         dockerRegistryEndpoint: 'dockerRepo'
-        #secretName: 'nexussecret'
-        forceUpdate: false
+        secretName: 'docker'
+        forceUpdate: true
         checkLatest: true
+        outputFormat: 'yaml'
