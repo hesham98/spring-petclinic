@@ -12,7 +12,7 @@ RUN mvn dependency:go-offline -B
 COPY . .
 
 # Build the Spring Boot application
-RUN mvn package -Dcheckstyle.skip -DskipTests
+RUN mvn package -Dcheckstyle.skip
 
 # Use an OpenJDK image to run the application
 FROM eclipse-temurin:17-jdk-jammy
@@ -27,4 +27,4 @@ COPY --from=build /app/target/*.jar app.jar
 EXPOSE 8081
 
 # Run the Spring Boot application
-ENTRYPOINT ["java", "-jar", "app.jar"]
+ENTRYPOINT ["java", "-jar", "app.jar", "--server.port=8081"]
