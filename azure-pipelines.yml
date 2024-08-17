@@ -38,8 +38,8 @@ stages:
     - upload: manifests
       artifact: manifests
 
-- stage: Deploy
-  displayName: Deploy stage
+- stage: DeployToDev
+  displayName: Deploy to Dev
   dependsOn: Build
   jobs:
   - job: Deploy
@@ -65,5 +65,33 @@ stages:
         dockerRegistryEndpoint: 'dockerRepo'
         secretName: 'docker'
         forceUpdate: true
+        checkLatest: true
+        outputFormat: 'yaml'
+
+- stage: DeployToStaging
+  displayName: Deploy to Staging
+  dependsOn: DeployToDev
+  jobs:
+  - job: Deploy
+    displayName: Deploy
+    pool: Default
+    steps:
+    - powershell: |
+        (Get-Content -path 'manifests\deployment.yml') -replace 'TAG_PLACEHOLDER', '$(Build.BuildId)' | Set-Content -path 'manifests\deployment.yml'
+      displayName: Replace image tag in deployment manifest
+    - task: Kubernetes@1
+      inputs:
+        connectionType: 'Azure Resource Manager'
+        azureSubscriptionEndpoint: 'Azure subscription 1(7dec5829-bdf3-4069-86ff-2358b047427d)'
+        azureResourceGroup: 'atos-RG'
+        kubernetesCluster: 'atos-aks'
+        namespace: 'staging'
+        command: 'apply'
+        useConfigurationFile: true
+        configuration: 'manifests'
+        secretType: 'dockerRegistry'
+        containerRegistryType: 'Container Registry'
+        dockerRegistryEndpoint: 'dockerRepo'
+        secretName: 'docker'
         checkLatest: true
         outputFormat: 'yaml'
