@@ -16,4 +16,4 @@ spec:
         - name: petclinic 
           image: 98.66.209.194/task:TAG_PLACEHOLDER
           ports:
-          - containerPort: 8080
+          - containerPort: 8081
